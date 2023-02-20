@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+
+<head></head>
+
+<body>
+    <div id="maincontainer"></div>
+    <script>
+        const personal_info = {
+            "Name": "Nadthanicha Ardsuwan,ID:63010295",
+            "Subject": "SW Studio",
+            "Semester": "2",
+        }
+        const snapshots = {
+            "Fireworks": "https://images.unsplash.com/photo-1499233983070-99a5f004e720?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=80",
+            "Crest": "https://images.unsplash.com/photo-1515655371474-253e8d8a575a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=80",
+            "Action": "https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=80",
+            "Buffalo": "https://images.unsplash.com/photo-1575414914265-ebc9aa2637f4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=80",
+        }
+
+        var id_elm = document.getElementById("maincontainer")
+
+        //head
+        var head_text = document.createElement("h1")
+        head_text.innerHTML = "Exercise 04: JavaScript&DOM"
+        head_text.style.fontSize = "xx-large"
+        head_text.style.fontWeight = "bold"
+        head_text.style.marginBottom = "20px"
+        id_elm.appendChild(head_text) //up to div tag and inside div tag is <h1> tag
+
+        //btn
+        var btn_box = document.createElement("div")
+        btn_box.style.width = "auto"
+        btn_box.style.height = "20px"
+        var btn = document.createElement("button")
+        btn.setAttribute("change", "false") //setAttribute("name","value")
+        btn.innerHTML = "Click me to display Date and Time"
+        btn.addEventListener("click", function (){
+            btn.setAttribute("change", btn.getAttribute("change") == "false" ? "true" : "false")
+            if (btn.getAttribute("change") == "true") {
+                btn.innerHTML = new Date()
+                btn.style.position = "fixed"
+                btn.style.right = "0px"
+                btn.style.top = "0px"
+                btn.style.sticky = "top"
+            }
+            else {
+                btn.style.position = "static"
+                btn.style.right = ""
+                btn.style.top = ""
+                btn.style.sticky = ""
+            }
+        })
+
+        //web worker
+        let w = new Worker("webWorker.js")
+        setInterval(function() {
+            if (btn.getAttribute("change") == "true") {
+                btn.innerHTML = new Date()
+                w.postMessage(Date.now())
+                w.onmessage = function(event) { //event listener to the web worker
+                    btn.style.backgroundColor = event.data.backgroundColor
+                    
+                }
+                btn.style.color = "white"
+            }
+        }, 1000)//setInterval(function,millisec) set เพื่อให้แสดงตอนไหน 
+        
+        //upload to body tag
+        btn_box.appendChild(btn)
+        id_elm.appendChild(btn_box)
+        //personal info btn
+        var div_info = document.createElement("div")
+        div_info.style.marginTop = "30px"
+
+        var info_link = document.createElement("a")
+        info_link.href = "#"
+        info_link.innerHTML = "Personal Info"
+        info_link.style.color = "pink"
+        info_link.style.fontSize = "18px"
+        info_link.addEventListener("mouseover", function () {
+            info_link.style.backgroundColor = "yellow"
+            info_link.style.color = "blue"
+        })
+        info_link.addEventListener("mouseout", function () {
+            info_link.style.color = "pink"
+            info_link.style.backgroundColor = "transparent"
+        })
+
+        var info_list = document.createElement("ul")
+        info_list.style.display = "none" //set info pen none
+        for (const [key, value] of Object.entries(personal_info)) {
+            var info_item = document.createElement("li")
+            if (key == "Name") {
+                info_item.innerHTML = value
+            }
+            else {
+                info_item.innerHTML = key + ": " + value
+            }
+            info_list.appendChild(info_item)
+        }
+        info_link.addEventListener("click", function () {
+            //toggle info
+            if (info_list.style.display === "none") {
+                info_list.style.display = "block"
+            }
+            else {
+                info_list.style.display = "none"
+            }
+        })
+        div_info.appendChild(info_link)
+        div_info.appendChild(info_list)
+        id_elm.appendChild(div_info)
+
+        //Snapshots
+        var div_snapshot = document.createElement("div")
+        var h1_snap = document.createElement("h1")
+        h1_snap.innerHTML = "Snapshots"
+        div_snapshot.appendChild(h1_snap)
+        id_elm.appendChild(div_snapshot)
+
+        var ul_snap = document.createElement("ul")
+        var img_snap = new Image(1000, 300)
+        img_snap.src = "https://www.ce.kmitl.ac.th/api/main/banner/download/1"
+        for (const [key, value] of Object.entries(snapshots)) {
+            var snap_list = document.createElement("li")
+            var snap_link = document.createElement("a")
+
+            snap_link.setAttribute("id", key)
+            snap_link.href = "#snapshot"
+            snap_link.innerHTML = key
+            snap_link.addEventListener("click", () => {
+                img_snap.src = snapshots[key]
+                img_snap.style.width = "800px"
+                img_snap.style.height = "500px"
+            })
+            snap_list.appendChild(snap_link)
+            ul_snap.appendChild(snap_list)
+        }
+        div_snapshot.appendChild(ul_snap)
+        div_snapshot.appendChild(img_snap)
+
+    </script>
+</body>
+
+</html>

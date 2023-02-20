@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=hello, initial-scale=1.0">
+    <title>Lab1-2</title>
+
+    <style>
+        .box {
+            border: 1px solid;
+        }
+    </style>
+</head>
+
+<body>
+    <fieldset class="box">
+        <legend><i>Contact Information</i></legend>
+        <label for="Fname">First name:</label>
+        <input type="text" id="Fname" name="Fname">
+        <br>
+        <label for="Lname">Last name:</label>
+        <input type="text" id="Lname" name="Lname">
+        <br>
+        <label for="Email">E-mail:</label>
+        <input type="email" id="Email" name="Email">
+    </fieldset>
+
+    <fieldset class="box">
+        <legend><i>Competition Question</i></legend>
+        How tall is the Eiffel Tower in Paris, France?
+        <form>
+            <input type="radio" id="tall1" name="tall" value="584ft">
+            <label for="tall1">584ft</label>
+            <br>
+            <input type="radio" id="tall2" name="tall" value="784ft">
+            <label for="tall2">784ft</label>
+            <br>
+            <input type="radio" id="tall3" name="tall" value="984ft">
+            <label for="tall3">984ft</label>
+            <br>
+            <input type="radio" id="tall4" name="tall" value="1184ft">
+            <label for="tall4">1184ft</label>
+        </form>
+    </fieldset>
+    <fieldset class="box">
+        <legend><i>Tiebreaker Question</i></legend>
+        In 25 words or less, say why you would like to win $10,000:
+        <br>
+        <textarea name="question" id="question" cols="30" rows="10"></textarea>
+    </fieldset>
+    <fieldset class="box">
+        <legend><i>Enter competition</i></legend>
+        <input type="submit" value="Enter Competition">
+    </fieldset>
+</body>
+
+</html>
