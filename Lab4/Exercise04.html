@@ -29,13 +29,15 @@
         id_elm.appendChild(head_text) //up to div tag and inside div tag is <h1> tag
 
         //btn
+        let w = new Worker("webWorker.js")
         var btn_box = document.createElement("div")
         btn_box.style.width = "auto"
         btn_box.style.height = "20px"
+        // btn_box.style.backgroundColor = "red"
         var btn = document.createElement("button")
         btn.setAttribute("change", "false") //setAttribute("name","value")
         btn.innerHTML = "Click me to display Date and Time"
-        btn.addEventListener("click", function (){
+        btn.addEventListener("click", function () {
             btn.setAttribute("change", btn.getAttribute("change") == "false" ? "true" : "false")
             if (btn.getAttribute("change") == "true") {
                 btn.innerHTML = new Date()
@@ -43,6 +45,7 @@
                 btn.style.right = "0px"
                 btn.style.top = "0px"
                 btn.style.sticky = "top"
+                btn.style.color = "white"
             }
             else {
                 btn.style.position = "static"
@@ -50,25 +53,31 @@
                 btn.style.top = ""
                 btn.style.sticky = ""
             }
+            btn.innerHTML = new Date()
+            //web worker
+            w.postMessage(Date.now())
+            w.onmessage = function (event) { //event listener to the web worker
+                btn.style.backgroundColor = event.data.backgroundColor
+            }
         })
 
         //web worker
-        let w = new Worker("webWorker.js")
-        setInterval(function() {
+        setInterval(function () {
             if (btn.getAttribute("change") == "true") {
                 btn.innerHTML = new Date()
                 w.postMessage(Date.now())
-                w.onmessage = function(event) { //event listener to the web worker
+                w.onmessage = function (event) { //event listener to the web worker
                     btn.style.backgroundColor = event.data.backgroundColor
-                    
+
                 }
-                btn.style.color = "white"
+                
             }
         }, 1000)//setInterval(function,millisec) set เพื่อให้แสดงตอนไหน 
-        
+
         //upload to body tag
         btn_box.appendChild(btn)
         id_elm.appendChild(btn_box)
+
         //personal info btn
         var div_info = document.createElement("div")
         div_info.style.marginTop = "30px"
